@@ -1,0 +1,54 @@
+Source: ocaml-ctypes
+Section: ocaml
+Priority: optional
+Maintainer: Debian OCaml Maintainers <debian-ocaml-maint@lists.debian.org>
+Uploaders: Stéphane Glondu <glondu@debian.org>
+Build-Depends:
+ debhelper-compat (= 13),
+ libffi-dev,
+ ocaml-findlib,
+ ocaml-nox,
+ libintegers-ocaml-dev,
+ libounit-ocaml-dev,
+ liblwt-ocaml-dev (>= 3.2.0),
+ dh-ocaml
+Standards-Version: 4.5.0
+Rules-Requires-Root: no
+Vcs-Git: https://salsa.debian.org/ocaml-team/ocaml-ctypes.git
+Vcs-Browser: https://salsa.debian.org/ocaml-team/ocaml-ctypes
+Homepage: https://github.com/ocamllabs/ocaml-ctypes
+
+Package: libctypes-ocaml
+Architecture: any
+Depends:
+ ${ocaml:Depends},
+ ${shlibs:Depends},
+ ${misc:Depends}
+Provides: ${ocaml:Provides}
+Description: library for binding to C libraries using pure OCaml (runtime)
+ The ocaml-ctypes library makes it possible to call C functions
+ directly from OCaml without writing or generating C code.  The core
+ of the library is a set of combinators for describing C types --
+ scalars, functions, structs, unions, arrays, and pointers to values
+ and functions.  Type descriptions can then be used to bind native
+ functions and values.
+ .
+ This package contains the shared runtime stub library and plugins.
+
+Package: libctypes-ocaml-dev
+Architecture: any
+Depends:
+ ${ocaml:Depends},
+ ${shlibs:Depends},
+ ${misc:Depends}
+Provides: ${ocaml:Provides}
+Description: library for binding to C libraries using pure OCaml (dev)
+ The ocaml-ctypes library makes it possible to call C functions
+ directly from OCaml without writing or generating C code.  The core
+ of the library is a set of combinators for describing C types --
+ scalars, functions, structs, unions, arrays, and pointers to values
+ and functions.  Type descriptions can then be used to bind native
+ functions and values.
+ .
+ This package contains all the development stuff you need to use
+ ocaml-ctypes.

@@ -1,0 +1,7 @@
+@OCamlStdlibDir@/ctypes/*.h
+@OCamlStdlibDir@/ctypes/*.a
+@OCamlStdlibDir@/ctypes/*.ml*
+@OCamlStdlibDir@/ctypes/*.cmi
+@OCamlStdlibDir@/ctypes/*.cmt*
+OPT: @OCamlStdlibDir@/ctypes/*.cmx
+OPT: @OCamlStdlibDir@/ctypes/*.cmxa

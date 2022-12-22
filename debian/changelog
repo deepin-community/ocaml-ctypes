@@ -1,0 +1,100 @@
+ocaml-ctypes (0.17.1-2) unstable; urgency=medium
+
+  * Link libtest_functions.so with -lm (fixes FTBFS on some architectures)
+
+ -- Stéphane Glondu <glondu@debian.org>  Wed, 05 Aug 2020 17:29:30 +0200
+
+ocaml-ctypes (0.17.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Enable upstream build-time tests
+  * Bump debhelper compat level to 13
+  * Bump Standards-Version to 4.5.0
+  * Add Rules-Requires-Root: no
+
+ -- Stéphane Glondu <glondu@debian.org>  Wed, 05 Aug 2020 13:01:22 +0200
+
+ocaml-ctypes (0.15.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Update Vcs-*
+  * Bump debhelper compat level to 12
+  * Bump Standards-Version to 4.4.0
+
+ -- Stéphane Glondu <glondu@debian.org>  Mon, 19 Aug 2019 13:12:22 +0200
+
+ocaml-ctypes (0.7.0-1) unstable; urgency=medium
+
+  * New upstream release
+    - all patches have been merged upstream
+
+ -- Stéphane Glondu <glondu@debian.org>  Mon, 01 Aug 2016 10:18:46 +0200
+
+ocaml-ctypes (0.6.2-7) unstable; urgency=medium
+
+  * Fix and re-enable test-roots
+  * Fix typo in ctypes_primitive_ffitype
+
+ -- Stéphane Glondu <glondu@debian.org>  Wed, 22 Jun 2016 15:44:15 +0200
+
+ocaml-ctypes (0.6.2-6) unstable; urgency=medium
+
+  * Add support for bytecode architectures
+  * Temporarily disable root lifetime test (it fails on mipsel, let's
+    debug bytecode support first)
+
+ -- Stéphane Glondu <glondu@debian.org>  Wed, 22 Jun 2016 12:04:40 +0200
+
+ocaml-ctypes (0.6.2-5) unstable; urgency=medium
+
+  * Add missing return in ffi_return_type_adjustment
+
+ -- Stéphane Glondu <glondu@debian.org>  Wed, 22 Jun 2016 09:34:31 +0200
+
+ocaml-ctypes (0.6.2-4) unstable; urgency=medium
+
+  * Initialize the return slot for small return values from callbacks
+
+ -- Stéphane Glondu <glondu@debian.org>  Tue, 21 Jun 2016 09:06:58 +0200
+
+ocaml-ctypes (0.6.2-3) unstable; urgency=medium
+
+  * Fix for PowerPC: handle libffi's integer return type promotion
+
+ -- Stéphane Glondu <glondu@debian.org>  Sat, 18 Jun 2016 16:03:51 +0200
+
+ocaml-ctypes (0.6.2-2) unstable; urgency=medium
+
+  * Use the same C compiler as OCaml to build test stubs
+
+ -- Stéphane Glondu <glondu@debian.org>  Wed, 15 Jun 2016 11:00:18 +0200
+
+ocaml-ctypes (0.6.2-1) unstable; urgency=medium
+
+  * New upstream release
+    - add liblwt-ocaml-dev to Build-Depends
+  * Bump Standards-Version to 3.9.8
+
+ -- Stéphane Glondu <glondu@debian.org>  Tue, 14 Jun 2016 11:41:13 +0200
+
+ocaml-ctypes (0.4.1-2) unstable; urgency=medium
+
+  * Use $(CURDIR) instead of $(PWD) in Makefile.test. This fixes FTBFS
+    on autobuilders.
+  * Bump Standards-Version to 3.9.7
+  * Update Vcs-*
+
+ -- Stéphane Glondu <glondu@debian.org>  Fri, 12 Feb 2016 12:42:35 +0100
+
+ocaml-ctypes (0.4.1-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #792657)
+  * Update debian/watch
+
+ -- Stéphane Glondu <glondu@debian.org>  Fri, 04 Dec 2015 11:11:34 +0100
+
+ocaml-ctypes (0.2.3-1) unstable; urgency=medium
+
+  * Initial release (Closes: #742613)
+
+ -- Stéphane Glondu <glondu@debian.org>  Tue, 25 Mar 2014 15:47:23 +0100
