@@ -8,6 +8,7 @@
 open OUnit2
 open Ctypes
 
+let _ = Dl.(dlopen ~filename:"../clib/clib.so" ~flags:[RTLD_NOW])
 
 module Common_tests(S : Cstubs.FOREIGN with type 'a result = 'a
                                         and type 'a return = 'a) =
@@ -54,9 +55,9 @@ struct
 
     let iarr = !@int_array in
     begin
-      let expected_ints = Bigarray.(Array1.create int32 c_layout 5) in
+      let expected_ints = Bigarray_compat.(Array1.create int32 c_layout 5) in
       for i = 0 to 4 do
-	Bigarray.Array1.set expected_ints i (Int32.of_int i)
+	Bigarray_compat.Array1.set expected_ints i (Int32.of_int i)
       done;
       assert_equal expected_ints iarr
     end
@@ -76,7 +77,7 @@ struct
   let test_environ _ =
     let parse_entry s =
       match Str.(bounded_split (regexp "=") s 2), "" with
-        [k; v], _ | [k], v -> (String.uppercase k, v)
+        [k; v], _ | [k], v -> (String.uppercase_ascii k, v)
       | _ -> Printf.ksprintf failwith "Parsing %S failed" s
     in
     let rec copy_environ acc env =

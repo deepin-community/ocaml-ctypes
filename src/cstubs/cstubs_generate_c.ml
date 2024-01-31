@@ -7,6 +7,8 @@
 
 (* C stub generation *)
 
+[@@@warning "-9-27"]
+
 open Ctypes_static
 open Cstubs_c_language
 open Unchecked_function_types
@@ -268,7 +270,7 @@ struct
       (* f := functions[fn_name];
          x := caml_callbackN(f, nargs, locals);
          y := T_val(x);
-         CAMLdrop();
+         CAMLdrop;
          y *)
       (`Index (functions, idx), value) >>= fun f ->
       (`App (caml_callbackN, [f;

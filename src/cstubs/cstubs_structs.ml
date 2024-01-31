@@ -5,6 +5,8 @@
  * See the file LICENSE for details.
  *)
 
+[@@@warning "-9-27"]
+
 open Ctypes
 
 module type TYPE =
@@ -40,6 +42,7 @@ let cepilogue = [
   "}";
   ]
 let mlprologue = [
+  "[@@@warning \"-9-27\"]";
   "include Ctypes";
   "let lift x = x";
   "open Ctypes_static";
@@ -80,12 +83,12 @@ let write_field fmt specs =
   let case = function
   | `Struct (tag, typedef), fname ->
     let foffset fmt = offsetof fmt (typedef, fname) in
-    puts fmt (Printf.sprintf "  | Struct ({ tag = %S} as s'), %S ->" tag fname);
+    puts fmt (Printf.sprintf "  | Struct ({ tag = %S; _} as s'), %S ->" tag fname);
     printf1 fmt             "    let f = {ftype; fname; foffset = %zu} in \n" foffset;
     puts fmt                "    (s'.fields <- BoxedField f :: s'.fields; f)";
   | `Union (tag, typedef), fname ->
     let foffset fmt = offsetof fmt (typedef, fname) in
-    puts fmt (Printf.sprintf "  | Union ({ utag = %S} as s'), %S ->" tag fname);
+    puts fmt (Printf.sprintf "  | Union ({ utag = %S; _} as s'), %S ->" tag fname);
     printf1 fmt             "    let f = {ftype; fname; foffset = %zu} in \n" foffset;
     puts fmt                "    (s'.ufields <- BoxedField f :: s'.ufields; f)";
   | _ -> raise (Unsupported "Adding a field to non-structured type")
@@ -95,7 +98,7 @@ let write_field fmt specs =
    "let rec field : type t a. t typ -> string -> a typ -> (a, t) field =";
    "  fun s fname ftype -> match s, fname with";]
   ~case
-  ["  | View { ty }, _ ->";
+  ["  | View { ty; _ }, _ ->";
    "    let { ftype; foffset; fname } = field ty fname ftype in";
    "    { ftype; foffset; fname }";
    "  | _ -> failwith (\"Unexpected field \"^ fname)"]
@@ -105,12 +108,12 @@ let write_seal fmt specs =
     | `Struct (tag, typedef) ->
         let ssize fmt = sizeof fmt typedef
         and salign fmt = alignmentof fmt typedef in
-        puts fmt (Printf.sprintf "  | Struct ({ tag = %S; spec = Incomplete _ } as s') ->" tag);
+        puts fmt (Printf.sprintf "  | Struct ({ tag = %S; spec = Incomplete _; _ } as s') ->" tag);
         printf2 fmt              "    s'.spec <- Complete { size = %zu; align = %zu }\n" ssize salign;
     | `Union (tag, typedef) ->
         let usize fmt = sizeof fmt typedef
         and ualign fmt = alignmentof fmt typedef in
-        puts fmt (Printf.sprintf "  | Union ({ utag = %S; uspec = None } as s') ->" tag);
+        puts fmt (Printf.sprintf "  | Union ({ utag = %S; uspec = None; _ } as s') ->" tag);
         printf2 fmt              "    s'.uspec <- Some { size = %zu; align = %zu }\n" usize ualign;
     | `Other -> 
       raise (Unsupported "Sealing a non-structured type")
@@ -119,11 +122,11 @@ let write_seal fmt specs =
     ["";
      "let rec seal : type a. a typ -> unit = function"]
     ~case
-    ["  | Struct { tag; spec = Complete _ } ->";
+    ["  | Struct { tag; spec = Complete _; _ } ->";
      "    raise (ModifyingSealedType tag)";
-     "  | Union { utag; uspec = Some _ } ->";
+     "  | Union { utag; uspec = Some _; _ } ->";
      "    raise (ModifyingSealedType utag)";
-     "  | View { ty } -> seal ty";
+     "  | View { ty; _ } -> seal ty";
      "  | _ ->";
      "    raise (Unsupported \"Sealing a non-structured type\")";
      ""]
@@ -133,7 +136,7 @@ let primitive_format_string : type a. a Ctypes_primitive_types.prim -> string =
     let open Ctypes_primitive_types in
     let sprintf = Printf.sprintf in
     let fail () =
-      Printf.kprintf failwith "Cannot retrieve constants of type %s"
+      Printf.ksprintf failwith "Cannot retrieve constants of type %s"
         (Ctypes_primitives.name p)
     in
     match p, Ctypes_primitives.format_string p with

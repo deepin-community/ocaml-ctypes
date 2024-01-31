@@ -1,3 +1,5 @@
+@OCamlStdlibDir@/ctypes/*opam*
+@OCamlStdlibDir@/ctypes/*dune*
 @OCamlStdlibDir@/ctypes/*.h
 @OCamlStdlibDir@/ctypes/*.a
 @OCamlStdlibDir@/ctypes/*.ml*
@@ -5,3 +7,9 @@
 @OCamlStdlibDir@/ctypes/*.cmt*
 OPT: @OCamlStdlibDir@/ctypes/*.cmx
 OPT: @OCamlStdlibDir@/ctypes/*.cmxa
+@OCamlStdlibDir@/ctypes/*/*.ml*
+@OCamlStdlibDir@/ctypes/*/*.cmi
+@OCamlStdlibDir@/ctypes/*/*.cmt*
+OPT: @OCamlStdlibDir@/ctypes/*/*.a
+OPT: @OCamlStdlibDir@/ctypes/*/*.cmx
+OPT: @OCamlStdlibDir@/ctypes/*/*.cmxa

@@ -1,2 +1,5 @@
-version=3
-https://github.com/ocamllabs/ocaml-ctypes/releases .*/(?:ocaml-ctypes-)?(.*)\.tar\.gz
+version=4
+opts="searchmode=plain,\
+filenamemangle=s%v?@ANY_VERSION@%@PACKAGE@-$1.tar.gz%" \
+https://api.github.com/repos/ocamllabs/ocaml-ctypes/releases?per_page=50 \
+https://api.github.com/repos/[^/]+/[^/]+/tarball/v?@ANY_VERSION@

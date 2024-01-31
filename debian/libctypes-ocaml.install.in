@@ -2,3 +2,5 @@
 @OCamlStdlibDir@/ctypes/META
 @OCamlStdlibDir@/ctypes/*.cma
 DYN: @OCamlStdlibDir@/ctypes/*.cmxs
+@OCamlStdlibDir@/ctypes/*/*.cma
+DYN: @OCamlStdlibDir@/ctypes/*/*.cmxs

@@ -5,6 +5,8 @@
  * See the file LICENSE for details.
  *)
 
+[@@@warning "-9-27"]
+
 open Ctypes_static
 
 module Stubs = Ctypes_memory_stubs
@@ -186,8 +188,12 @@ struct
   let length { alength } = alength
   let from_ptr astart alength = { astart; alength }
 
-  let fill ({ alength } as arr) v =
-    for i = 0 to alength - 1 do unsafe_set arr i v done
+  let fill { alength; astart = CPointer p } v =
+    let size = sizeof (Fat.reftype p) in
+    let w = write (Fat.reftype p) v in
+    for i = 0 to alength - 1 do
+      w (Fat.add_bytes p (i * size))
+    done
 
   let make : type a. ?finalise:(a t -> unit) -> a typ -> ?initial:a -> int -> a t
     = fun ?finalise reftype ?initial count ->
@@ -204,7 +210,7 @@ struct
   let copy {astart = CPointer src; alength} =
     begin
       let reftyp = Fat.reftype src in
-      let CPointer dst as r = allocate_n reftyp alength in
+      let CPointer dst as r = allocate_n reftyp ~count:alength in
       let () = Stubs.memcpy ~dst ~src ~size:(alength * sizeof reftyp) in
       from_ptr r alength
     end
@@ -285,7 +291,7 @@ let getf s field = !@(s @. field)
 
 let addr { structured } = structured
 
-open Bigarray
+open Bigarray_compat
 
 let _bigarray_start kind ba =
   let raw_address = Ctypes_bigarray.unsafe_address ba in

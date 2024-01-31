@@ -47,9 +47,9 @@ let test_unions_are_not_passable _ =
 
     let u : u union typ = union "u"
     let (-:) ty label = field u label ty
-    let c = int    -: "c"
-    let f = double -: "f"
-    let p = ptr u  -: "p"
+    let _c = int    -: "c"
+    let _f = double -: "f"
+    let _p = ptr u  -: "p"
     let () = seal u
 
     let _ = begin
@@ -147,35 +147,35 @@ let test_arrays_are_not_passable _ =
 let test_bigarrays_are_not_passable _ =
   assert_raises ~msg:"bigarray type rejected as argument"
     (Unsupported "Unsupported argument type")
-    (fun () -> bigarray genarray [|1|] Bigarray.int @-> returning void);
+    (fun () -> bigarray genarray [|1|] Bigarray_compat.int @-> returning void);
       
   assert_raises ~msg:"bigarray1 type rejected as argument"
     (Unsupported "Unsupported argument type")
-    (fun () -> bigarray array1 1 Bigarray.int @-> returning void);
+    (fun () -> bigarray array1 1 Bigarray_compat.int @-> returning void);
       
   assert_raises ~msg:"bigarray2 type rejected as argument"
     (Unsupported "Unsupported argument type")
-    (fun () -> bigarray array2 (1, 2) Bigarray.int @-> returning void);
+    (fun () -> bigarray array2 (1, 2) Bigarray_compat.int @-> returning void);
       
   assert_raises ~msg:"bigarray3 type rejected as argument"
     (Unsupported "Unsupported argument type")
-    (fun () -> bigarray array3 (1, 2, 3) Bigarray.int @-> returning void);
+    (fun () -> bigarray array3 (1, 2, 3) Bigarray_compat.int @-> returning void);
 
   assert_raises ~msg:"bigarray type rejected as return type"
     (Unsupported "Unsupported return type")
-    (fun () -> void @-> returning (bigarray genarray [|1|] Bigarray.int));
+    (fun () -> void @-> returning (bigarray genarray [|1|] Bigarray_compat.int));
 
   assert_raises ~msg:"bigarray1 type rejected as return type"
     (Unsupported "Unsupported return type")
-    (fun () -> void @-> returning (bigarray array1 1 Bigarray.int));
+    (fun () -> void @-> returning (bigarray array1 1 Bigarray_compat.int));
 
   assert_raises ~msg:"bigarray2 type rejected as return type"
     (Unsupported "Unsupported return type")
-    (fun () -> void @-> returning (bigarray array2 (1, 2) Bigarray.int));
+    (fun () -> void @-> returning (bigarray array2 (1, 2) Bigarray_compat.int));
 
   assert_raises ~msg:"bigarray3 type rejected as return type"
     (Unsupported "Unsupported return type")
-    (fun () -> void @-> returning (bigarray array3 (1, 2, 3) Bigarray.int))
+    (fun () -> void @-> returning (bigarray array3 (1, 2, 3) Bigarray_compat.int))
 
 
 (*

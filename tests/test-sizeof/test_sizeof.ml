@@ -8,6 +8,7 @@
 open OUnit2
 open Ctypes
 
+[@@@warning "-27-32"]
 
 (*
   Test some relationships between the sizes of primitive types.
@@ -106,7 +107,7 @@ let test_sizeof_structs _ =
     let () =
       for i = 1 to 10 do
         let homogeneous : h structure typ = structure "h" in
-        for j = 1 to i do
+        for _j = 1 to i do
           ignore (field homogeneous "_" int);
         done;
         seal homogeneous;
@@ -171,8 +172,8 @@ end
 *)
 let test_sizeof_bigarrays _ =
   let module M = struct
-    module B = Bigarray
-    type k = K : ('a, 'b) Bigarray.kind * int -> k
+    module B = Bigarray_compat
+    type k = K : ('a, 'b) Bigarray_compat.kind * int -> k
     let kind_sizes = [
       K (B.float32, 4);
       K (B.float64, 8);

@@ -6,13 +6,15 @@ Uploaders: Stéphane Glondu <glondu@debian.org>
 Build-Depends:
  debhelper-compat (= 13),
  libffi-dev,
- ocaml-findlib,
- ocaml-nox,
+ ocaml-dune,
+ libdune-ocaml-dev,
+ ocaml,
+ libbigarray-compat-ocaml-dev,
  libintegers-ocaml-dev,
- libounit-ocaml-dev,
- liblwt-ocaml-dev (>= 3.2.0),
- dh-ocaml
-Standards-Version: 4.5.0
+ libounit-ocaml-dev <!nocheck>,
+ liblwt-ocaml-dev (>= 3.2.0) <!nocheck>,
+ dh-ocaml (>= 1.2)
+Standards-Version: 4.6.2
 Rules-Requires-Root: no
 Vcs-Git: https://salsa.debian.org/ocaml-team/ocaml-ctypes.git
 Vcs-Browser: https://salsa.debian.org/ocaml-team/ocaml-ctypes

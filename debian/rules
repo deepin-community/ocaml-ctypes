@@ -1,28 +1,7 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-
-DESTDIR := $(CURDIR)/debian/tmp
-
 include /usr/share/ocaml/ocamlvars.mk
 
-OCAMLFIND_DESTDIR=$(DESTDIR)/$(OCAML_STDLIB_DIR)
-OCAMLFIND_LDCONF=ignore
-
-export OCAMLFIND_DESTDIR
-export OCAMLFIND_LDCONF
-
 %:
-	dh $@ --with ocaml --no-parallel
-
-.PHONY: override_dh_auto_install
-override_dh_auto_install:
-	mkdir -p $(OCAMLFIND_DESTDIR) $(DESTDIR)/$(OCAML_DLL_DIR)
-	dh_auto_install
-
-override_dh_missing:
-	dh_missing --fail-missing -X.so.owner -XCHANGES.md
-
-override_dh_dwz:
+	dh $@ --with ocaml --buildsystem ocaml_dune

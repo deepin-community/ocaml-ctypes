@@ -25,7 +25,7 @@ let test_pointer_coercions _ =
       T complex64;
       T (ptr double);
       T string;
-      T (bigarray array1 10 Bigarray.int32);
+      T (bigarray array1 10 Bigarray_compat.int32);
       T (array 5 int32_t);
       T (structure "s");
       T (union "u");
@@ -38,7 +38,7 @@ let test_pointer_coercions _ =
         ~f:(fun (T t1) ->
           ListLabels.iter types
             ~f:(fun (T t2) ->
-              let _ = coerce (ptr t1) (ptr t2) in ()))
+              let _fn = coerce (ptr t1) (ptr t2) in ()))
 
     (* Check that pointer coercions are value-preserving. *)
     let v = 10
@@ -57,7 +57,7 @@ let test_struct_first_member_coercions _ =
   let module M = struct
     let s = structure "s"
     let f = field s "f" double
-    let i = field s "i" int
+    let _i = field s "i" int
     let () = seal s
 
     let () = begin
@@ -166,7 +166,7 @@ end
    Check that identity coercions are cost-free.
 *)
 let test_identity_coercions _ =
-  let f = fun x y -> x in
+  let f = fun x _y -> x in
   let fn = int @-> float @-> returning int in
   let f' = coerce_fn fn fn f in
   assert_bool "identity coercions are free" (f' == f)
@@ -184,83 +184,83 @@ let test_unsupported_coercions _ =
     type boxed_type = T : 'a typ -> boxed_type
     let types = [
       T int8_t,
-      [T uint16_t; T float; T complex64; T (bigarray array1 10 Bigarray.int32);
+      [T uint16_t; T float; T complex64; T (bigarray array1 10 Bigarray_compat.int32);
        T (array 5 int32_t); T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T uint16_t,
       [T int8_t; T int; T float; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T int,
-      [T uint16_t; T float; T complex64; T (bigarray array1 10 Bigarray.int32);
+      [T uint16_t; T float; T complex64; T (bigarray array1 10 Bigarray_compat.int32);
        T (array 5 int32_t); T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T float,
       [T int8_t; T uint16_t; T int; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T ldouble,
       [T int8_t; T uint16_t; T int; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T short,
-      [T uint16_t; T float; T complex64; T (bigarray array1 10 Bigarray.int32);
+      [T uint16_t; T float; T complex64; T (bigarray array1 10 Bigarray_compat.int32);
        T (array 5 int32_t); T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T complex64,
       [T int8_t; T uint16_t; T int; T float; T short;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T complexld,
       [T int8_t; T uint16_t; T int; T short; 
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
-      T (bigarray array1 10 Bigarray.int32),
+      T (bigarray array1 10 Bigarray_compat.int32),
       [T int8_t; T uint16_t; T int; T float; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T (array 5 int32_t),
       [T int8_t; T uint16_t; T int; T float; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T (structure "s"),
       [T int8_t; T uint16_t; T int; T float; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T (union "u"),
       [T int8_t; T uint16_t; T int; T float; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T (abstract ~name:"a" ~size:12 ~alignment:4),
       [T int8_t; T uint16_t; T int; T float; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
 
       T ocaml_string,
       [T int8_t; T uint16_t; T int; T float; T short; T complex64;
-       T (bigarray array1 10 Bigarray.int32); T (array 5 int32_t);
+       T (bigarray array1 10 Bigarray_compat.int32); T (array 5 int32_t);
        T (structure "s"); T (union "u");
        T (abstract ~name:"a" ~size:12 ~alignment:4)];
     ]
